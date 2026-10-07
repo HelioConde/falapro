@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f4ee">
+  <meta name="description" content="Treine entrevistas de emprego com perguntas por cargo, método STAR e feedback estruturado.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FalaPro — treino de entrevista sem resposta decorada">
+  <meta property="og:description" content="Pratique respostas por texto ou voz, revise estrutura STAR e acompanhe sua evolução.">
+  <meta property="og:url" content="https://helioconde.github.io/falapro/">
+  <link rel="canonical" href="https://helioconde.github.io/falapro/">
+  <link rel="alternate" hreflang="pt-BR" href="https://helioconde.github.io/falapro/">
+  <link rel="alternate" hreflang="en" href="https://helioconde.github.io/falapro/?lang=en">
+  <link rel="alternate" hreflang="x-default" href="https://helioconde.github.io/falapro/">
+  <title>FalaPro — treino de entrevista</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./">Fala<span>Pro</span></a>
+    <nav class="top-actions">
+      <span id="sync-status" class="sync-status" data-i18n="localMode">Modo local</span>
+      <button id="language-toggle" class="ghost small" type="button">EN</button>
+      <button id="account-open" class="ghost small" type="button" data-i18n="account">Entrar / sincronizar</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero shell">
+      <div>
+        <p class="eyebrow" data-i18n="eyebrow">CARREIRA · ENTREVISTA</p>
+        <h1 data-i18n="heroTitle">Treine a resposta. <span>Não decore um personagem.</span></h1>
+        <p data-i18n="heroText">Pratique perguntas de entrevista por cargo, responda por texto ou voz e use um checklist simples para tornar sua resposta mais clara, específica e convincente.</p>
+      </div>
+      <aside class="hero-card">
+        <p class="eyebrow" data-i18n="method">MÉTODO</p>
+        <div class="star-row"><b>S</b><span data-i18n="starSituation">Situação</span></div>
+        <div class="star-row"><b>T</b><span data-i18n="starTask">Tarefa</span></div>
+        <div class="star-row"><b>A</b><span data-i18n="starAction">Ação</span></div>
+        <div class="star-row"><b>R</b><span data-i18n="starResult">Resultado</span></div>
+      </aside>
+    </section>
+
+    <section id="setup" class="shell setup-grid">
+      <section class="panel">
+        <div class="panel-head"><div><p class="eyebrow" data-i18n="step1">1 · PREPARAR</p><h2 data-i18n="setupTitle">Monte sua simulação</h2></div></div>
+        <form id="setup-form">
+          <label class="field"><span data-i18n="targetRole">Cargo-alvo</span><select id="target-role"></select></label>
+          <label class="field"><span data-i18n="level">Nível</span><select id="level"><option value="intern" data-i18n-option="intern">Estágio</option><option value="junior" data-i18n-option="junior" selected>Júnior</option><option value="intermediate" data-i18n-option="intermediate">Intermediário</option></select></label>
+          <label class="field"><span data-i18n="interviewLanguage">Idioma da entrevista</span><select id="interview-language"><option value="pt-BR">Português</option><option value="en">English</option></select></label>
+          <label class="field"><span data-i18n="questionCount">Quantidade</span><select id="question-count"><option value="5">5</option><option value="8">8</option><option value="10">10</option></select></label>
+          <button class="primary" type="submit" data-i18n="start">Começar simulação</button>
+        </form>
+      </section>
+
+      <aside class="panel history-preview">
+        <div class="panel-head"><div><p class="eyebrow" data-i18n="historyEyebrow">PROGRESSO</p><h2 data-i18n="historyTitle">Últimos treinos</h2></div><button id="history-open" class="text-button" type="button" data-i18n="seeAll">Ver todos</button></div>
+        <div id="history-preview-list" class="history-list"></div>
+      </aside>
+    </section>
+
+    <section id="interview" class="shell interview" hidden>
+      <div class="interview-top">
+        <div><p class="eyebrow" id="session-meta">—</p><h2 id="question-title">—</h2><p id="question-tip" class="muted"></p></div>
+        <div class="progress-box"><strong id="progress-label">1/5</strong><span id="timer">00:00</span></div>
+      </div>
+
+      <div class="answer-grid">
+        <section class="panel answer-panel">
+          <div class="answer-tools">
+            <span data-i18n="yourAnswer">Sua resposta</span>
+            <button id="voice-button" class="ghost small" type="button" data-i18n="voice">🎙️ Responder por voz</button>
+          </div>
+          <textarea id="answer" rows="11" maxlength="5000" data-i18n-placeholder="answerPlaceholder" placeholder="Escreva como você responderia em uma entrevista real…"></textarea>
+          <div class="answer-footer"><span id="answer-count">0</span><span data-i18n="characters">caracteres</span></div>
+        </section>
+
+        <aside class="panel self-review">
+          <p class="eyebrow" data-i18n="selfReview">AUTOAVALIAÇÃO</p>
+          <h3 data-i18n="starCheck">Sua resposta tem STAR?</h3>
+          <label><input type="checkbox" data-star="s"> <span data-i18n="checkSituation">Contexto/situação ficou claro</span></label>
+          <label><input type="checkbox" data-star="t"> <span data-i18n="checkTask">Expliquei minha responsabilidade</span></label>
+          <label><input type="checkbox" data-star="a"> <span data-i18n="checkAction">Detalhei o que eu fiz</span></label>
+          <label><input type="checkbox" data-star="r"> <span data-i18n="checkResult">Mostrei resultado/aprendizado</span></label>
+          <label class="score-field"><span data-i18n="confidence">Confiança na resposta</span><input id="confidence" type="range" min="1" max="5" value="3"><b id="confidence-value">3/5</b></label>
+        </aside>
+      </div>
+
+      <div class="interview-actions">
+        <button id="quit-session" class="ghost" type="button" data-i18n="quit">Encerrar</button>
+        <button id="submit-answer" class="primary" type="button" data-i18n="reviewAnswer">Revisar resposta</button>
+      </div>
+    </section>
+
+    <section id="feedback" class="shell feedback" hidden>
+      <div class="feedback-card">
+        <div class="score-ring"><strong id="feedback-score">—</strong><span>/5</span></div>
+        <div><p class="eyebrow" data-i18n="structuredFeedback">FEEDBACK ESTRUTURADO</p><h2 id="feedback-title">—</h2><p id="feedback-copy"></p><div id="feedback-points" class="feedback-points"></div></div>
+      </div>
+      <div class="feedback-actions">
+        <button id="edit-answer" class="ghost" type="button" data-i18n="edit">Editar resposta</button>
+        <button id="next-question" class="primary" type="button" data-i18n="next">Próxima pergunta</button>
+      </div>
+    </section>
+
+    <aside class="ad-slot shell"><span data-i18n="ad">PUBLICIDADE</span><small data-i18n="adNote">espaço reservado · fora do treino</small></aside>
+  </main>
+
+  <footer class="footer shell">
+    <div><strong>FalaPro</strong><span data-i18n="disclaimer">Treino estruturado; não garante aprovação em processos seletivos.</span></div>
+    <nav><a href="sobre.html" data-i18n="about">Sobre</a><a href="privacidade.html" data-i18n="privacy">Privacidade</a><a href="termos.html" data-i18n="terms">Termos</a></nav>
+  </footer>
+
+  <dialog id="account-dialog" class="dialog">
+    <div class="dialog-head"><div><p class="eyebrow" data-i18n="cloud">SINCRONIZAÇÃO</p><h2 data-i18n="accountTitle">Sua conta</h2></div><button class="icon-button" data-close-dialog="account-dialog" type="button">×</button></div>
+    <div id="account-logged-out">
+      <form id="auth-form">
+        <label class="field"><span>E-mail</span><input id="auth-email" type="email" autocomplete="email" required></label>
+        <label class="field"><span data-i18n="password">Senha</span><input id="auth-password" type="password" minlength="8" autocomplete="current-password" required></label>
+        <div class="dialog-actions"><button id="sign-up" class="ghost" type="button" data-i18n="createAccount">Criar conta</button><button class="primary" type="submit" data-i18n="signIn">Entrar</button></div>
+      </form>
+      <p id="auth-message" class="muted"></p>
+    </div>
+    <div id="account-logged-in" hidden><p id="account-email"></p><button id="sign-out" class="ghost" type="button" data-i18n="signOut">Sair</button></div>
+  </dialog>
+
+  <dialog id="history-dialog" class="dialog history-dialog">
+    <div class="dialog-head"><div><p class="eyebrow" data-i18n="historyEyebrow">PROGRESSO</p><h2 data-i18n="historyAll">Histórico de treinos</h2></div><button class="icon-button" data-close-dialog="history-dialog" type="button">×</button></div>
+    <div id="history-all-list" class="history-list"></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
