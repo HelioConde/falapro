@@ -18,7 +18,7 @@
   }
   async function refresh(next){
     if(reloading)return;reloading=true;notice();
-    try{if("caches"in window){const keys=await caches.keys();await Promise.allSettled(keys.map(key=>caches.delete(key)));}}catch{}
+    // GitHub Pages sites share one origin: leave unrelated application caches intact.
     await new Promise(resolve=>setTimeout(resolve,650));
     const url=new URL(location.href);url.searchParams.set(PARAM,next.slice(0,16)||Date.now().toString());location.replace(url.toString());
   }
