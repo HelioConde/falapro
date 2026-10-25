@@ -1,113 +1,52 @@
-# FalaPro — Treine entrevistas com mais clareza
+<div align="center">
+  <h1>🎤 FalaPro</h1>
+  <p><strong>Treino de entrevistas de tecnologia com perguntas guiadas, método STAR e feedback explicável.</strong></p>
+  <p><img alt="JavaScript" src="https://img.shields.io/badge/JavaScript-App%20Web-F7DF1E?logo=javascript&logoColor=black"> <img alt="Status" src="https://img.shields.io/badge/status-MVP%20em%20valida%C3%A7%C3%A3o-64748b"></p>
+  <p><a href="https://helioconde.github.io/falapro/"><strong>Experimentar</strong></a> · <a href="#como-usar"><strong>Como usar</strong></a> · <a href="#desenvolvimento"><strong>Desenvolvimento</strong></a></p>
+</div>
 
-**Simule perguntas para vagas de tecnologia, organize respostas com STAR e acompanhe sua evolução.**
+## O que é
 
-![Status](https://img.shields.io/badge/status-MVP%20em%20validação-64748b)
+O **FalaPro** ajuda quem está se preparando para entrevistas de emprego na área de tecnologia a **praticar respostas e transformar feedback em ações de melhoria**. O usuário escolhe o cargo, o nível e o idioma, recebe perguntas e registra respostas por texto ou pela função de voz do navegador, quando suportada.
 
-## Como funciona
+> **Sem promessa de aprovação:** a nota de 1 a 5 é calculada a partir de critérios visíveis e heurísticos, não por um recrutador nem por uma IA avaliadora secreta. Não prevê contratação.
 
-1. Escolha um cargo e o nível da entrevista.
-2. Responda por texto ou reconhecimento de voz, quando o navegador permitir.
-3. Faça sua autoavaliação e veja feedback baseado em critérios explicados.
-4. Consulte o histórico local ou habilite a sincronização, se configurada.
+## Como usar
 
-**Importante:** a nota é uma ferramenta de treino, não previsão de contratação nem avaliação automática por um recrutador.
+1. Selecione a vaga e a experiência desejada.
+2. Escolha o idioma e o número de perguntas.
+3. Responda por texto ou ditado de voz, quando disponível.
+4. Revise sua resposta usando o método **STAR** (Situação, Tarefa, Ação e Resultado).
+5. Receba feedback por critério e continue a sessão.
+6. Consulte seu histórico local para identificar pontos de evolução.
 
-O README abaixo reúne regras do feedback, privacidade, testes, idiomas e futuras etapas.
+**Áreas iniciais:** Desenvolvimento Front-End/Web, Software, QA, Suporte/TI e Estágio em Desenvolvimento.
 
----
+## Recursos e dados
 
-Treino estruturado de entrevistas de emprego, local-first, com sincronização opcional.
+| Funcionalidade | Situação no MVP |
+| --- | --- |
+| Perguntas por cargo e nível | Implementada |
+| Resposta por texto | Implementada |
+| Reconhecimento de voz | Depende do navegador e permissão |
+| Critérios STAR e feedback | Heurístico, explicável |
+| Histórico | Local no dispositivo |
+| Sincronização | Opcional, requer Supabase configurado |
+| Português e inglês | Interfaces disponíveis |
 
-## Estado atual
+O histórico salvo em `localStorage` pode desaparecer ao limpar dados do site. Não insira informações pessoais sensíveis ou dados de terceiros nas respostas de teste.
 
-> **MVP funcional implementado em 07/10/2026.** O produto entra em validação; novas features ficam congeladas até QA publicado e uso real.
+## Desenvolvimento
 
-## Fluxo principal
+O site é estático, feito com **HTML, CSS e JavaScript**, com `questions.js` para conteúdo e arquivos opcionais de integração Supabase.
 
-1. escolha o cargo;
-2. escolha nível, idioma da entrevista e quantidade de perguntas;
-3. responda por texto ou por reconhecimento de voz do navegador;
-4. marque sua autoavaliação STAR;
-5. receba feedback estruturado e explicável;
-6. avance para a próxima pergunta;
-7. acompanhe o histórico local;
-8. opcionalmente entre na conta para sincronizar.
+```bash
+git clone https://github.com/HelioConde/falapro.git
+cd falapro
+python -m http.server 8000
+```
 
-## Cargos iniciais
-
-- Desenvolvedor(a) Front-End Jr;
-- Desenvolvedor(a) Web Jr;
-- Desenvolvedor(a) de Software Jr;
-- QA Jr;
-- Suporte / TI;
-- Estágio em Desenvolvimento / TI.
-
-## Feedback do MVP
-
-A nota atual **não é uma previsão de contratação** e não usa uma IA avaliadora escondida.
-
-Ela observa sinais objetivos:
-
-- tamanho/contexto suficiente;
-- cobertura STAR;
-- detalhes concretos/números;
-- autoria da ação;
-- resultado ou aprendizado.
-
-A pontuação vai de 1 a 5 e cada ponto é explicado na tela.
-
-## Voz
-
-Quando disponível, o navegador pode usar `SpeechRecognition` / `webkitSpeechRecognition` para transformar fala em texto.
-
-- texto continua sendo o fluxo principal;
-- nenhuma gravação de áudio é salva pelo FalaPro;
-- o processamento de reconhecimento pode depender do navegador/provedor.
-
-## Dados
-
-### Sem conta
-
-`localStorage` mantém até 50 sessões recentes.
-
-### Com conta
-
-Supabase compartilhado `pizzaria-db`:
-
-- `falapro_sessions`;
-- `falapro_answers`.
-
-O frontend usa somente a **publishable key**.
-
-Em 07/10/2026 os grants foram reduzidos para:
-
-- `anon`: sem acesso às tabelas FalaPro;
-- `authenticated`: `SELECT, INSERT, UPDATE, DELETE`.
-
-As duas tabelas possuem RLS com `auth.uid() = user_id`.
-
-O SQL equivalente está versionado em `supabase/sql/falapro_security_hardening.sql`.
-
-## Idiomas
-
-- PT-BR: principal e fallback;
-- EN: obrigatório;
-- idioma da interface e idioma da entrevista são independentes.
-
-## QA
-
-Automação cobre:
-
-- entrevista local;
-- feedback estruturado;
-- STAR;
-- histórico local;
-- PT-BR/EN;
-- perguntas em inglês;
-- sincronização local → nuvem simulada;
-- desktop e mobile;
-- ausência de secret/service_role no frontend.
+Abra `http://localhost:8000`. Para executar QA com Node.js:
 
 ```bash
 npm install
@@ -115,37 +54,12 @@ npm run check
 npm run test:e2e
 ```
 
-## Gate antes de V2
+Playwright precisa dos navegadores de teste instalados. Os comandos são os scripts definidos no repositório; **esta atualização de README não equivale à execução dos testes**.
 
-- [x] MVP navegável;
-- [x] local-first;
-- [x] banco existente integrado;
-- [x] hardening de grants aplicado;
-- [x] PT-BR/EN;
-- [x] voz opcional;
-- [x] QA/E2E;
-- [x] Pages preparado;
-- [ ] confirmar Actions verdes;
-- [ ] confirmar Pages publicado;
-- [ ] validar login/sync com duas contas reais;
-- [ ] validar reconhecimento de voz em Chrome Android/Desktop;
-- [ ] testar com pessoas em busca de vaga;
-- [ ] corrigir somente P0/P1 encontrados.
+## O que falta para lançar amplamente
 
-## V2 — somente depois da validação
+Validar o feedback com entrevistas simuladas reais, usabilidade mobile e acessibilidade, além de confirmar autenticação e permissões na sincronização opcional.
 
-- pergunta personalizada por descrição da vaga;
-- feedback com modelo de IA, sempre rotulado e com critérios visíveis;
-- análise de repetição/vícios de linguagem;
-- metas semanais;
-- comparação de evolução entre sessões;
-- simulação por tempo;
-- compartilhamento de plano de melhoria.
+[**Repositório**](https://github.com/HelioConde/falapro) · [**Projetos relacionados**](https://github.com/HelioConde/ideias-ia-lab)
 
-## Monetização
-
-Produto gratuito com publicidade preparada fora do fluxo principal. Anúncios não podem interromper pergunta, resposta, voz ou feedback.
-
-## Deploy
-
-https://helioconde.github.io/falapro/
+Desenvolvido por [Hélio Conde](https://github.com/HelioConde).
