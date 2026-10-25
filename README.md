@@ -1,4 +1,21 @@
-# FalaPro
+# FalaPro — Treine entrevistas com mais clareza
+
+**Simule perguntas para vagas de tecnologia, organize respostas com STAR e acompanhe sua evolução.**
+
+![Status](https://img.shields.io/badge/status-MVP%20em%20validação-64748b)
+
+## Como funciona
+
+1. Escolha um cargo e o nível da entrevista.
+2. Responda por texto ou reconhecimento de voz, quando o navegador permitir.
+3. Faça sua autoavaliação e veja feedback baseado em critérios explicados.
+4. Consulte o histórico local ou habilite a sincronização, se configurada.
+
+**Importante:** a nota é uma ferramenta de treino, não previsão de contratação nem avaliação automática por um recrutador.
+
+O README abaixo reúne regras do feedback, privacidade, testes, idiomas e futuras etapas.
+
+---
 
 Treino estruturado de entrevistas de emprego, local-first, com sincronização opcional.
 
