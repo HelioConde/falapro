@@ -7,9 +7,9 @@ const viewports=[
 ];
 const routes=[
   {path:'/',slug:'home',heading:/Treine a resposta/},
-  {path:'/sobre.html',slug:'sobre',heading:/FalaPro|Sobre/i},
-  {path:'/privacidade.html',slug:'privacidade',heading:/Privacidade/i},
-  {path:'/termos.html',slug:'termos',heading:/Termos/i},
+  {path:'/sobre.html',slug:'sobre',heading:/Treino de entrevista/i},
+  {path:'/privacidade.html',slug:'privacidade',heading:/Você pode treinar/i},
+  {path:'/termos.html',slug:'termos',heading:/O feedback é treino/i},
 ];
 
 test('QA visual: rotas, foco, responsividade e capturas',async ({browser})=>{
@@ -20,7 +20,7 @@ test('QA visual: rotas, foco, responsividade e capturas',async ({browser})=>{
     page.on('pageerror',err=>errors.push(err.message));
     page.on('console',msg=>{if(msg.type()==='error')errors.push(msg.text());});
     for(const route of routes){
-      const response=await page.goto(route.path,{waitUntil:'domcontentloaded'});
+      const response=await page.goto('http://127.0.0.1:4173'+route.path,{waitUntil:'domcontentloaded'});
       expect(response?.status(),route.path).toBe(200);
       await expect(page.getByRole('heading',{level:1}).first()).toContainText(route.heading);
       const layout=await page.evaluate(()=>({
