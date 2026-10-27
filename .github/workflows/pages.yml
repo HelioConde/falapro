@@ -1,42 +1,79 @@
-name: Deploy GitHub Pages
-
+name: FalaPro — QA e publicação Pages
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
-  group: pages
+  group: falapro-pages
   cancel-in-progress: true
-
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  quality:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      pages_enabled: ${{ steps.pages.outputs.enabled }}
     steps:
       - uses: actions/checkout@v4
-      - name: Check GitHub Pages configuration
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Dependências e verificações estáticas
+        run: |
+          npm install --no-audit --no-fund
+          npm run check
+      - name: Preparar Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Servidor para testes
+        run: python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/falapro.log 2>&1 &
+      - name: E2E funcional e capturas responsivas
+        run: npm run test:e2e
+      - name: Arquivar screenshots e diagnósticos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: falapro-playwright
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: warn
+      - name: Verificar se Pages está habilitado
+        id: pages
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if ! gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
-            echo "::error::Ative GitHub Pages em Settings > Pages > Build and deployment > Source: GitHub Actions."
-            exit 1
+          if gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "Pages habilitado; pronto para publicação." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Configuração pendente::Ative Settings > Pages > Build and deployment > GitHub Actions."
+            echo "Testes aprovados, mas Pages ainda não foi ativado. Não houve deploy." >> "$GITHUB_STEP_SUMMARY"
           fi
-      - uses: actions/configure-pages@v5
-      - name: Stamp deploy version
+  deploy:
+    if: needs.quality.outputs.pages_enabled == 'true'
+    needs: quality
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar pacote estático seguro
         run: |
-          printf '{"sha":"%s","publishedAt":"%s"}\n' "$GITHUB_SHA" "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" > version.json
-      - uses: actions/upload-pages-artifact@v4
+          mkdir -p dist-pages
+          cp index.html style.css app.js questions.js supabase-config.js live-update.js static-page.js favicon.svg dist-pages/
+          cp sobre.html privacidade.html termos.html robots.txt sitemap.xml dist-pages/
+          touch dist-pages/.nojekyll
+          printf '{"sha":"%s","publishedAt":"%s"}\n' "$GITHUB_SHA" "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" > dist-pages/version.json
+          test "$(find dist-pages -type f | wc -l)" -eq 15
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
-      - name: Deploy
+          path: dist-pages/
+      - name: Publicar
         id: deployment
         uses: actions/deploy-pages@v4
