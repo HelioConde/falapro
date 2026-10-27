@@ -23,3 +23,74 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .static-page{min-height:100vh}.static-shell{width:min(800px,calc(100% - 40px));margin:auto;padding:70px 0 90px}.static-shell article{padding:30px;border:1px solid var(--line);border-radius:16px;background:var(--panel);box-shadow:var(--shadow)}.static-shell h1{margin:0 0 20px;font-size:clamp(36px,6vw,58px);line-height:1}.static-shell h2{margin:28px 0 8px}.static-shell p{color:var(--muted);line-height:1.75}.back-link{display:inline-flex;margin-top:22px;color:var(--accent);font-weight:800}
 @media(max-width:860px){.hero,.setup-grid,.answer-grid{grid-template-columns:1fr}.hero{gap:24px}.history-preview{order:-1}.feedback-points{grid-template-columns:1fr}}
 @media(max-width:620px){.shell{width:min(100% - 24px,1160px)}.topbar{padding:0 12px}.sync-status{display:none}.hero{padding-top:42px}.hero h1{font-size:clamp(45px,13vw,64px)}#setup-form{grid-template-columns:1fr}#setup-form .primary{grid-column:auto}.interview-top{flex-direction:column}.progress-box{grid-template-columns:1fr 1fr;min-width:150px}.answer-tools{align-items:flex-start;flex-direction:column}.feedback-card{grid-template-columns:1fr}.score-ring{width:92px}.footer{flex-direction:column}.dialog{padding:18px}.static-shell{width:min(100% - 24px,800px);padding-top:36px}.static-shell article{padding:20px}}
+
+
+/* Modernização 2026-10-27 — legibilidade, ritmo, foco e componentes STAR.
+   Os tokens preservam a identidade verde/terracota e não alteram a lógica do treino. */
+:root{
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;
+  --space-6:24px;--space-8:32px;--space-12:48px;
+  --radius-sm:10px;--radius-card:18px;
+  --focus:#155e53;--muted:#52625d;
+}
+html{scroll-padding-top:88px}
+.skip-link{
+  position:fixed;left:12px;top:10px;z-index:200;
+  padding:12px 16px;border-radius:var(--radius-sm);
+  color:#fff;background:#154f46;font-weight:800;
+  transform:translateY(-160%);transition:transform .18s ease;
+}
+.skip-link:focus-visible{transform:translateY(0);outline:3px solid #efaa75;outline-offset:3px}
+:where(button,a,input,textarea,select):focus-visible,
+.field select:focus-visible,.field input:focus-visible,
+.answer-panel textarea:focus-visible{
+  outline:3px solid var(--focus);outline-offset:3px;
+  box-shadow:0 0 0 5px rgba(29,106,94,.12);
+}
+button:disabled{cursor:not-allowed;opacity:.65}
+.eyebrow{font-size:12px;line-height:1.45}
+.sync-status,.field>span,.star-row span,.history-item strong,.empty-state,
+.answer-tools,.answer-footer,.self-review>label:not(.score-field),.score-field,
+.feedback-points>div,.footer,.ad-slot span,.ad-slot small,.toast{
+  font-size:clamp(12px,1vw,14px);
+}
+.history-item span,.score-ring span,.feedback-points>div,.self-review>label:not(.score-field){
+  line-height:1.55;
+}
+.ghost.small{min-height:44px;font-size:13px}
+.text-button,.footer nav a,.back-link{min-height:44px;display:inline-flex;align-items:center}
+.icon-button{min-width:44px;min-height:44px;width:44px;height:44px}
+.field>span{color:#43574e}
+.field input,.field select,.answer-panel textarea{min-height:48px;border-color:#aaa99e}
+.star-row{grid-template-columns:44px 1fr;gap:var(--space-4);padding:var(--space-3) 0}
+.star-row b{
+  width:44px;height:44px;border:1px solid #b6d6c8;
+  background:linear-gradient(135deg,#e2f2e9,#f6fbf7);
+  color:#155b4e;font-size:17px;border-radius:12px;
+}
+.hero-card{border-radius:var(--radius-card);background:linear-gradient(160deg,#fffdf8 70%,#eaf4ed)}
+.hero-card .eyebrow{margin-bottom:var(--space-4)}
+.panel{border-radius:var(--radius-card)}
+.history-item{padding:var(--space-4)}
+.history-item strong{line-height:1.4}
+.progress-box{min-width:104px}
+.self-review>label:not(.score-field){min-height:44px;align-items:center}
+.self-review input[type=checkbox]{min-width:18px;min-height:18px}
+.feedback-points>div{padding:var(--space-3)}
+.ad-slot{min-height:44px}
+.topbar{min-height:72px}
+.top-actions{flex-wrap:wrap;justify-content:flex-end}
+@media(max-width:620px){
+  .topbar{padding:10px 12px}
+  .hero{padding-top:var(--space-8)}
+  .hero h1{font-size:clamp(38px,10vw,60px);line-height:1.03}
+  .hero-card{padding:var(--space-4)}
+  .history-preview{order:initial}
+  .panel{padding:var(--space-4)}
+  .feedback-points>div{min-height:44px}
+  .footer nav{flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  html{scroll-behavior:auto}
+}
